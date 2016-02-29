@@ -46,10 +46,11 @@
                         <label for="password">Password</label>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="test5" name="checkbox" value="1" />
-                    <label for="test5">下次自动登录</label>
-                </p>
+                    <p>
+                        <input type="checkbox" id="test5" name="checkbox" value="1" class="col s6" />
+                        <label for="test5">下次自动登录</label>
+                    </p>
+                <a class="waves-effect waves-light btn modal-trigger" href="#findMyPass">重置密码</a>
                 <input type="reset" class="btn waves-effect waves-light right" value="reset">
                 <input type="submit" class="btn waves-effect waves-light right" value="submit">
             </form>
@@ -62,20 +63,20 @@
         <div class="modal-content">
             <form method="post" action="register_1.php" class="col s12" onsubmit="return chk_form1();">
                 <div class="row">
-                    <div class="input-field col s7 ">
+                    <div class="input-field col s10 ">
                         <input placeholder="username" id="username1" type="text"  name="name1" class="validate">
-                        <label for="username1">Username</label>
+                        <label for="username1">Username(必须字母、数字、下划线组成，字母开头，6-16位)</label>
                     </div>
-                    <div class="input-field col s7">
+                    <div class="input-field col s10">
                         <input id="password1" type="password" placeholder="password" name="password1" >
-                        <label for="password">Password</label>
+                        <label for="password">Password(字母、数字、下划线组成，大写字母开头，6-16位)</label>
                     </div>
-                    <div class="input-field col s7">
+                    <div class="input-field col s10">
                         <input id="repeatPassword" type="password" placeholder="password" name="password2"  >
                         <label for="password">RepeatPassword</label>
                     </div>
-                    <div class="input-field col s7">
-                        <input type="email" id="email" placeholder="email" >
+                    <div class="input-field col s10">
+                        <input type="email" id="email" placeholder="email" name="email" >
                         <label for="email">Email</label>
                     </div>
                 </div>
@@ -87,11 +88,31 @@
             <a  class=" modal-action modal-close waves-effect waves-green btn-flat">close</a>
         </div>
     </div>
-
+    <div class="modal" id="findMyPass">
+        <div class="modal-content">
+            <form action="findMyPass.php" method="post" class="col s12" onsubmit="return chk_form2();">
+                <div class="row">
+                    <div class="input-field col s10">
+                        <input type="email" placeholder="email" id="email2" name="email2" class="validate">
+                        <label for="email2">Email</label>
+                    </div>
+                    <div class="input-field col s10">
+                        <input type="text" placeholder="username" id="username2" name="username2" class="validate">
+                        <label for="username2">Username</label>
+                    </div>
+                </div>
+            <input type="submit" class="btn waves-effect waves-light right" value="submit" id="sub_btn" >
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a  class=" modal-action modal-close waves-effect waves-green btn-flat" href="#!">close</a>
+        </div>
+    </div>
 
 
 	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.validate.js"></script>-->
     <script language="JavaScript" type="text/javascript">
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -103,14 +124,14 @@
             var user = document.getElementById("username");
 
             if(user.value==""){
-                console.log("用户名不能为空！");
+                alert("用户名不能为空！");
                 return false;
                 //user.focus();
             }
             var pass = document.getElementById("password");
-            console.log(pass);
+
             if(pass.value==""){
-                console.log("密码不能为空！");
+                alert("密码不能为空！");
                 return false;
                 //pass.focus();
             }
@@ -119,21 +140,92 @@
     <script language="javascript" type="text/javascript">
         function chk_form1(){
             var user = document.getElementById("username1");
-
+            var pass = document.getElementById("password1");
             if(user.value==""){
-                console.log("用户名不能为空！");
+                alert("用户名不能为空！");
                 return false;
                 //user.focus();
             }
-            var pass = document.getElementById("password1");
-            console.log(pass);
             if(pass.value==""){
-                console.log("密码不能为空！");
+                alert("密码不能为空！");
                 return false;
                 //pass.focus();
             }
-        }
+            var re= /^[a-zA-Z]\w{5,15}$/;
+            var re1=/^[A-Z]\w{5,15}$/;
 
+            if(!re.test(user.value)){
+                alert("用户名必须字母、数字、下划线组成，字母开头，6-16位");
+                return false;
+            }
+            if(!re1.test(pass.value)){
+                alert("密码必须字母、数字、下划线组成，大写字母开头，6-16位");
+                return false;
+            }
+            var pass2 = document.getElementById("repeatPassword");
+            if(pass2.value==""){
+                alert("请重新输入密码");
+                return false;
+            }
+            if(pass.value!=pass2.value){
+                alert("两次输入不一致");
+                return false;
+            }
+            var email = document.getElementById("email");
+            if(email.value==""){
+                alert("请输入email地址");
+                return false;
+            }
+            var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //匹配Email
+            if(!preg.test(email.value)){
+                alert("Email格式错误！");
+                return false;
+                //email.focus();
+            }
+
+        }
     </script>
+    <script language="JavaScript" type="text/javascript">
+        function chk_form2(){
+            var user = document.getElementById("username2");
+            var email = document.getElementById("email2");
+            if(email.value==""){
+                alert("请输入email地址");
+                return false;
+            }
+            var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //匹配Email
+            if(!preg.test(email.value)){
+                alert("Email格式错误！");
+                return false;
+                //email.focus();
+            }
+            if(user.value==""){
+                alert("用户名不能为空！");
+                return false;
+                //user.focus();
+            }
+        }
+    </script>
+    <!--<script language="JavaScript" type="text/javascript">-->
+        <!--$(function(){-->
+            <!--$("#sub_btn").click(function(){-->
+                <!--var email = $("#email2").val();-->
+                <!--var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //匹配Email-->
+                <!--if(email=='' || !preg.test(email)){-->
+                    <!--$("#chkmsg").html("请填写正确的邮箱！");-->
+                <!--}else{-->
+                    <!--$("#sub_btn").attr("disabled","disabled").val('提交中..').css("cursor","default");-->
+                    <!--$.post("findMyPass.php",{mail:email},function(msg){-->
+                        <!--if(msg=="noreg"){-->
+                            <!--$("#chkmsg").html("该邮箱尚未注册！");-->
+                            <!--$("#sub_btn").removeAttr("disabled").val('提 交').css("cursor","pointer");-->
+                        <!--}else{-->
+                            <!--$(".demo").html("<h3>"+msg+"</h3>");-->
+                        <!--}-->
+                    <!--});-->
+                <!--}-->
+            <!--});-->
+        <!--})-->
+    <!--</script>-->
 </body>
 </html>

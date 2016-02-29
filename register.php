@@ -36,9 +36,9 @@
 <form method="post" action="register_1.php">  
 <div class="div">  
     <div class="text">  
-    用户名<input type="text" name="name" ></div>  
+    用户名<input type="text" name="name1" ></div>
     <div class="text">  
-    密码:<input type="password" name="password"></div>  
+    密码:<input type="password" name="password1"></div>
     <div class="text">  
     再次输入密码：<input type="password" name="pwd_again"></div>  
     <div class="text">  
